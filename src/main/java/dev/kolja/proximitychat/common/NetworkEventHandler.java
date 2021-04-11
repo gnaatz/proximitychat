@@ -22,7 +22,7 @@ public class NetworkEventHandler {
             return;
         }
         if(event.getEntity() instanceof ServerPlayerEntity) {
-            ProximityChatMod.LOGGER.error("is ServerPlayerEntity");
+            ProximityChatMod.LOGGER.info("Player joined");
         }
         ServerPlayerEntity player = (ServerPlayerEntity) event.getEntity();
         if(!event.getWorld().isClientSide) {
@@ -35,6 +35,7 @@ public class NetworkEventHandler {
                 ipList.add(((InetSocketAddress) address).getAddress().getHostName());
             }
             ProximityChatPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new ClientList(ipList));
+            ProximityChatMod.LOGGER.info("Client List sent");
         }
     }
 }

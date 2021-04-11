@@ -34,6 +34,7 @@ public class ProximityChatServer extends Thread {
 
         try {
             server = new ServerSocket(ProximityChatMod.SOCKET_PORT);
+            ProximityChatMod.LOGGER.info("Server socket created");
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -41,6 +42,7 @@ public class ProximityChatServer extends Thread {
         while(!shouldStop) {
             try {
                 Socket socket = server.accept();
+                ProximityChatMod.LOGGER.info("Incoming connection accepted");
                 socketList.add(new ProximityChatServerConn(socket));
             } catch (IOException e) {
                 e.printStackTrace();

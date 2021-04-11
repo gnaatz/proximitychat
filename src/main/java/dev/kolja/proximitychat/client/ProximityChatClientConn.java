@@ -1,5 +1,7 @@
 package dev.kolja.proximitychat.client;
 
+import dev.kolja.proximitychat.ProximityChatMod;
+
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -12,6 +14,7 @@ public class ProximityChatClientConn extends Thread {
     public ProximityChatClientConn(String ip, int port) {
         try {
             socket = new Socket(ip, port);
+            ProximityChatMod.LOGGER.info("Socket for " + ip + " created");
         } catch (IOException e) {
             e.printStackTrace();
         }
