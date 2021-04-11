@@ -1,5 +1,6 @@
 package dev.kolja.proximitychat.common;
 
+import dev.kolja.proximitychat.ProximityChatMod;
 import net.minecraft.network.PacketBuffer;
 import sun.awt.image.ImageWatched;
 

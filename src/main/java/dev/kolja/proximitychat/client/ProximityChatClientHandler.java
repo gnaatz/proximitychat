@@ -27,6 +27,7 @@ public class ProximityChatClientHandler {
         for(ProximityChatClientConn conn : handler.map.values()) {
             conn.terminate();
         }
+        handler = null;
     }
 
     private HashMap<String, ProximityChatClientConn> map;

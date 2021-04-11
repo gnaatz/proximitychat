@@ -16,6 +16,7 @@ public class ClientNetworkEventHandler {
         }
         if(event.getWorld().isClientSide()) {
             ProximityChatServer.terminate();
+            ProximityChatClientHandler.terminateConns();
         }
     }
 }

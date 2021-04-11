@@ -32,7 +32,10 @@ public class NetworkEventHandler {
                 if(entity.equals(player))
                     continue;
                 SocketAddress address = entity.connection.getConnection().getRemoteAddress();
-                ipList.add(((InetSocketAddress) address).getAddress().getHostName());
+                String s = address.toString().substring(1);
+                String[] s1 = s.split(":");
+                ProximityChatMod.LOGGER.info("IP: " + s1[0]);
+                ipList.add(s1[0]);
             }
             ProximityChatPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new ClientList(ipList));
             ProximityChatMod.LOGGER.info("Client List sent");
