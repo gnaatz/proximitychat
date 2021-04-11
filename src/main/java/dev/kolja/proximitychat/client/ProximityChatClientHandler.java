@@ -13,6 +13,7 @@ public class ProximityChatClientHandler {
         if(handler != null) {
             return;
         }
+        list.removeSelf();
         handler = new ProximityChatClientHandler(list);
     }
 

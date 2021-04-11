@@ -29,6 +29,10 @@ public class ClientList {
         }
     }
 
+    public void removeSelf() {
+        list.remove(0);
+    }
+
     public static ClientList decode(PacketBuffer buffer) {
         List<String> list = new LinkedList<>();
         int size = buffer.readInt();

@@ -1,6 +1,7 @@
 package dev.kolja.proximitychat.client;
 
 import dev.kolja.proximitychat.ProximityChatMod;
+import dev.kolja.proximitychat.common.ClientList;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -14,11 +15,11 @@ public class ProximityChatServer extends Thread {
 
     private static ProximityChatServer server;
 
-    public static void create() {
+    public static void create(ClientList list) {
         if(server != null) {
             return;
         }
-        server = new ProximityChatServer();
+        server = new ProximityChatServer(list.read().get(0));
         server.start();
     }
 
@@ -28,7 +29,13 @@ public class ProximityChatServer extends Thread {
     }
 
     private boolean shouldStop = false;
+    private String ip;
     private List<ProximityChatServerConn> socketList;
+
+    private ProximityChatServer(String ip) {
+        super();
+        this.ip = ip;
+    }
 
     public void run() {
         ServerSocket server;
@@ -36,7 +43,7 @@ public class ProximityChatServer extends Thread {
 
         try {
             server = new ServerSocket();
-            server.bind(new InetSocketAddress(InetAddress.getLocalHost(), ProximityChatMod.SOCKET_PORT));
+            server.bind(new InetSocketAddress(ip, ProximityChatMod.SOCKET_PORT));
             ProximityChatMod.LOGGER.info("Server socket created");
         } catch (IOException e) {
             e.printStackTrace();

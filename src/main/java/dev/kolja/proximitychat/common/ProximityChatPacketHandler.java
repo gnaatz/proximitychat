@@ -21,7 +21,7 @@ public class ProximityChatPacketHandler {
 
     public static void handleConnectedClientsList(ClientList msg, Supplier<NetworkEvent.Context> ctx) {
         ProximityChatMod.LOGGER.info("Client List received");
-        ProximityChatServer.create();
+        ProximityChatServer.create(msg);
         ProximityChatClientHandler.createConns(msg);
     }
 }

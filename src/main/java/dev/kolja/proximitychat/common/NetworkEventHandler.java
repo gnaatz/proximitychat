@@ -28,17 +28,22 @@ public class NetworkEventHandler {
         if(!event.getWorld().isClientSide) {
             List<String> ipList = new LinkedList<>();
             List<ServerPlayerEntity> list = player.getServer().getPlayerList().getPlayers();
+            addToList(player, ipList);
             for(ServerPlayerEntity entity : list) {
                 if(entity.equals(player))
                     continue;
-                SocketAddress address = entity.connection.getConnection().getRemoteAddress();
-                String s = address.toString().substring(1);
-                String[] s1 = s.split(":");
-                ProximityChatMod.LOGGER.info("IP: " + s1[0]);
-                ipList.add(s1[0]);
+                addToList(entity, ipList);
             }
             ProximityChatPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new ClientList(ipList));
             ProximityChatMod.LOGGER.info("Client List sent");
         }
+    }
+
+    private static void addToList(ServerPlayerEntity entity, List<String> list) {
+        SocketAddress address = entity.connection.getConnection().getRemoteAddress();
+        String s = address.toString().substring(1);
+        String[] s1 = s.split(":");
+        ProximityChatMod.LOGGER.info("IP: " + s1[0]);
+        list.add(s1[0]);
     }
 }
