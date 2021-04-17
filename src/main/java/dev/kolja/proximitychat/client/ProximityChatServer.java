@@ -43,7 +43,7 @@ public class ProximityChatServer extends Thread {
 
         try {
             server = new ServerSocket();
-            server.bind(new InetSocketAddress(ip, ProximityChatMod.SOCKET_PORT));
+            server.bind(new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(), ProximityChatMod.SOCKET_PORT));
             ProximityChatMod.LOGGER.info("Server socket created");
         } catch (IOException e) {
             e.printStackTrace();
