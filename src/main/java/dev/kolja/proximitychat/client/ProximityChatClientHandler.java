@@ -57,4 +57,10 @@ public class ProximityChatClientHandler {
             map.get(client).writeMessage(msg);
         }
     }
+
+    public void writeMsgToAll(String msg) {
+        for(ProximityChatClientConn conn : map.values()) {
+            conn.writeMessage(msg);
+        }
+    }
 }
