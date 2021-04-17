@@ -3,31 +3,26 @@ package dev.kolja.proximitychat.client;
 import dev.kolja.proximitychat.ProximityChatMod;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ProximityChatClientConn extends Thread {
     private Socket socket;
     private String msg;
+    private PrintWriter os;
 
     public ProximityChatClientConn(String ip, int port) {
         try {
             socket = new Socket(ip, port);
-            ProximityChatMod.LOGGER.info("Socket for " + ip + " created");
+            os = new PrintWriter(socket.getOutputStream());
+            ProximityChatMod.LOGGER.info("Socket and OS for " + ip + " created");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void run() {
-        try {
-            PrintWriter os = new PrintWriter(socket.getOutputStream());
-            os.println(msg);
-            os.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        os.println(msg);
     }
 
     public void writeMessage(String msg) {
@@ -37,6 +32,7 @@ public class ProximityChatClientConn extends Thread {
 
     public void terminate() {
         try {
+            os.close();
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
