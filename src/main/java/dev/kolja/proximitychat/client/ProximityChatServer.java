@@ -53,7 +53,9 @@ public class ProximityChatServer extends Thread {
             try {
                 Socket socket = server.accept();
                 ProximityChatMod.LOGGER.info("Incoming connection accepted");
-                socketList.add(new ProximityChatServerConn(socket));
+                ProximityChatServerConn conn = new ProximityChatServerConn(socket);
+                conn.start();
+                socketList.add(conn);
             } catch (IOException e) {
                 e.printStackTrace();
             }
