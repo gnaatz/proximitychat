@@ -5,7 +5,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.network.NetworkEvent;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class ClientNetworkEventHandler {
@@ -16,7 +15,7 @@ public class ClientNetworkEventHandler {
         }
         if(event.getWorld().isClientSide()) {
             ProximityChatServer.terminate();
-            ProximityChatClientHandler.terminateConns();
+            ProximityChatClientHandler.getInstance().terminateConns();
         }
     }
 }

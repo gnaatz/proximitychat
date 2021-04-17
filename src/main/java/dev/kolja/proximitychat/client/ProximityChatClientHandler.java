@@ -9,35 +9,42 @@ public class ProximityChatClientHandler {
 
     private static ProximityChatClientHandler handler;
 
-    public static void createConns(ClientList list) {
-        if(handler != null) {
-            return;
-        }
-        list.removeSelf();
-        handler = new ProximityChatClientHandler(list);
-    }
-
-    public static ProximityChatClientHandler getInstance() throws HandlerNotCreatedException {
+    public static ProximityChatClientHandler getInstance() {
         if(handler == null) {
-            throw new HandlerNotCreatedException();
+            handler = new ProximityChatClientHandler();
         }
         return handler;
     }
 
-    public static void terminateConns() {
+    public static void destroy() {
+        if(handler == null) {
+            return;
+        }
         for(ProximityChatClientConn conn : handler.map.values()) {
             conn.terminate();
         }
         handler = null;
     }
 
-    private HashMap<String, ProximityChatClientConn> map;
+    private final HashMap<String, ProximityChatClientConn> map;
 
-    private  ProximityChatClientHandler(ClientList clientList) {
+    private  ProximityChatClientHandler() {
         map = new HashMap<>();
-        for(String ip : clientList.read()) {
+    }
+
+    public void createConns(ClientList list) {
+        for(String ip : list.read()) {
+            if(map.containsKey(ip))
+                continue;
             map.put(ip, new ProximityChatClientConn(ip, ProximityChatMod.SOCKET_PORT));
         }
+    }
+
+    public void terminateConns() {
+        for(ProximityChatClientConn conn : map.values()) {
+            conn.terminate();
+        }
+        map.clear();
     }
 
     public void terminateConn(String client) {
