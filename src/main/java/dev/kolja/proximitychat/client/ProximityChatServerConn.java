@@ -1,5 +1,7 @@
 package dev.kolja.proximitychat.client;
 
+import dev.kolja.proximitychat.ProximityChatMod;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -27,7 +29,7 @@ public class ProximityChatServerConn extends Thread {
         while(!shouldQuit) {
             try {
                 String line = is.readLine();
-                //TODO: pass line to handler function
+                ProximityChatMod.LOGGER.error(line);
             } catch (IOException e) {
                 e.printStackTrace();
             }
