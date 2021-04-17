@@ -2,10 +2,7 @@ package dev.kolja.proximitychat.client;
 
 import dev.kolja.proximitychat.ProximityChatMod;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 public class ProximityChatServerConn extends Thread {
@@ -18,9 +15,9 @@ public class ProximityChatServerConn extends Thread {
     }
 
     public void run() {
-        BufferedReader is;
+        DataInputStream is;
         try {
-            is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            is = new DataInputStream(socket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -28,7 +25,7 @@ public class ProximityChatServerConn extends Thread {
 
         while(!shouldQuit) {
             try {
-                String line = is.readLine();
+                String line = is.readUTF();
                 ProximityChatMod.LOGGER.error(line);
             } catch (IOException e) {
                 e.printStackTrace();

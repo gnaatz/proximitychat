@@ -2,6 +2,7 @@ package dev.kolja.proximitychat.client;
 
 import dev.kolja.proximitychat.ProximityChatMod;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -9,20 +10,24 @@ import java.net.Socket;
 public class ProximityChatClientConn extends Thread {
     private Socket socket;
     private String msg;
-    private PrintWriter os;
+    private DataOutputStream os;
 
     public ProximityChatClientConn(String ip, int port) {
         try {
             socket = new Socket(ip, port);
-            os = new PrintWriter(socket.getOutputStream());
+            os = new DataOutputStream(socket.getOutputStream());
             ProximityChatMod.LOGGER.info("Socket and OS for " + ip + " created");
         } catch (IOException e) {
-            e.printStackTrace();
+            ProximityChatMod.LOGGER.error("Couldn't create socket");
         }
     }
 
     public void run() {
-        os.println(msg);
+        try {
+            os.writeUTF(msg);
+        } catch (IOException e) {
+            ProximityChatMod.LOGGER.error("Couldn't send msg");
+        }
     }
 
     public void writeMessage(String msg) {
