@@ -6,10 +6,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class ProximityChatClientConn extends Thread {
+public class ProximityChatClientConn {
     private Socket socket;
     private String msg;
     private DataOutputStream os;
+    private Thread currentThread;
 
     public ProximityChatClientConn(String ip, int port) {
         try {
@@ -32,15 +33,26 @@ public class ProximityChatClientConn extends Thread {
 
     public void writeMessage(String msg) {
         this.msg = msg;
-        this.start();
+        if(currentThread != null) {
+            try {
+                currentThread.join();
+            } catch (InterruptedException e) {
+                ProximityChatMod.LOGGER.debug("Something went wrong. Disregarding");
+            }
+        }
+        currentThread = new Thread(this::run);
+        currentThread.start();
     }
 
     public void terminate() {
         try {
+            currentThread.join();
             os.close();
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            ProximityChatMod.LOGGER.debug("Something went wrong. Disregarding");
         }
     }
 }
