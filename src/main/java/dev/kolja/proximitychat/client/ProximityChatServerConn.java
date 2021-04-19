@@ -25,8 +25,9 @@ public class ProximityChatServerConn extends Thread {
 
         while(!shouldQuit) {
             try {
+                ProximityChatMod.LOGGER.error("Waiting for message");
                 String line = is.readUTF();
-                ProximityChatMod.LOGGER.error(line);
+                ProximityChatMod.LOGGER.error("received message: " + line);
             } catch (IOException e) {
                 e.printStackTrace();
             }

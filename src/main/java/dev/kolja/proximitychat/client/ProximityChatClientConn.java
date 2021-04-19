@@ -4,7 +4,6 @@ import dev.kolja.proximitychat.ProximityChatMod;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ProximityChatClientConn extends Thread {
@@ -25,6 +24,7 @@ public class ProximityChatClientConn extends Thread {
     public void run() {
         try {
             os.writeUTF(msg);
+            ProximityChatMod.LOGGER.error("Wrote: " + msg);
         } catch (IOException e) {
             ProximityChatMod.LOGGER.error("Couldn't send msg");
         }
