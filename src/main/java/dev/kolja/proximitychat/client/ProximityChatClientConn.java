@@ -36,7 +36,7 @@ public class ProximityChatClientConn {
         if(currentThread != null) {
             try {
                 currentThread.join();
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | NullPointerException e) {
                 ProximityChatMod.LOGGER.debug("Something went wrong. Disregarding");
             }
         }
@@ -51,7 +51,7 @@ public class ProximityChatClientConn {
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | NullPointerException e) {
             ProximityChatMod.LOGGER.debug("Something went wrong. Disregarding");
         }
     }

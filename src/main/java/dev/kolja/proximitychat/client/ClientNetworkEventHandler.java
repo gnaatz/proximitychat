@@ -1,5 +1,6 @@
 package dev.kolja.proximitychat.client;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
@@ -14,8 +15,11 @@ public class ClientNetworkEventHandler {
             return;
         }
         if(event.getWorld().isClientSide()) {
-            ProximityChatServer.terminate();
-            ProximityChatClientHandler.getInstance().terminateConns();
+            assert Minecraft.getInstance().player != null;
+            if(Minecraft.getInstance().player.equals(event.getEntity())) {
+                ProximityChatServer.terminate();
+                ProximityChatClientHandler.getInstance().terminateConns();
+            }
         }
     }
 }

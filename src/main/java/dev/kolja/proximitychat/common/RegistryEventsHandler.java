@@ -2,10 +2,12 @@ package dev.kolja.proximitychat.common;
 
 import dev.kolja.proximitychat.ProximityChatMod;
 import dev.kolja.proximitychat.client.ProximityChatClientHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import sun.rmi.runtime.Log;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,9 +25,9 @@ public class RegistryEventsHandler {
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(event.getMessage());
         if(m.find()) {
+            assert Minecraft.getInstance().player != null;
             event.setCanceled(true);
-            ProximityChatMod.LOGGER.error("Writing message: " + m.group("message"));
-            ProximityChatClientHandler.getInstance().writeMsgToAll(m.group("message"));
+            ProximityChatClientHandler.getInstance().writeMsgToAll("^" + Minecraft.getInstance().player.getScoreboardName() + "^ " + m.group("message"));
         }
     }
 }
