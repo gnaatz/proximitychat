@@ -23,6 +23,7 @@ public class RegistryEventsHandler {
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(event.getMessage());
         if(m.find()) {
+            event.setCanceled(true);
             ProximityChatMod.LOGGER.error("Writing message: " + m.group("message"));
             ProximityChatClientHandler.getInstance().writeMsgToAll(m.group("message"));
         }
