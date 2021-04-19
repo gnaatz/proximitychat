@@ -4,21 +4,22 @@ import dev.kolja.proximitychat.ProximityChatMod;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.ForgeConfig;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.network.PacketDistributor;
 
-import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 @EventBusSubscriber(Dist.DEDICATED_SERVER)
 public class NetworkEventHandler {
+    public static void onMessagePing(PingMessage ping) {
+
+    }
+
     @SubscribeEvent
     public static void onPlayerJoin(EntityJoinWorldEvent event) {
         if(!(event.getEntity() instanceof PlayerEntity)) {
@@ -40,11 +41,11 @@ public class NetworkEventHandler {
             for(ServerPlayerEntity entity : list) {
                 ProximityChatPacketHandler.INSTANCE.send(
                         PacketDistributor.PLAYER.with(() -> entity),
-                        new ClientList(
+                        new ConnectionBuildMessage(
                                 new LinkedList<>(Collections.singletonList(getIpFromEntity(player)))
                         ));
             }
-            ProximityChatPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new ClientList(ipList));
+            ProximityChatPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new ConnectionBuildMessage(ipList));
             ProximityChatMod.LOGGER.info("Client List sent");
         }
     }
@@ -53,7 +54,7 @@ public class NetworkEventHandler {
         list.add(getIpFromEntity(entity));
     }
 
-    private static String getIpFromEntity(ServerPlayerEntity entity) {
+    public static String getIpFromEntity(ServerPlayerEntity entity) {
         SocketAddress address = entity.connection.getConnection().getRemoteAddress();
         String s = address.toString().substring(1);
         String[] s1 = s.split(":");

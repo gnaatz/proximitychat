@@ -1,7 +1,8 @@
 package dev.kolja.proximitychat.client;
 
 import dev.kolja.proximitychat.ProximityChatMod;
-import dev.kolja.proximitychat.common.ClientList;
+import dev.kolja.proximitychat.common.ConnectionBuildMessage;
+import dev.kolja.proximitychat.common.ReceiverMessage;
 
 import java.util.HashMap;
 
@@ -32,7 +33,7 @@ public class ProximityChatClientHandler {
         map = new HashMap<>();
     }
 
-    public void createConns(ClientList list) {
+    public void createConns(ConnectionBuildMessage list) {
         for(String ip : list.read()) {
             if(map.containsKey(ip))
                 continue;
@@ -45,7 +46,7 @@ public class ProximityChatClientHandler {
         map.remove(client);
     }
 
-    public void writeMsgToConns(ClientList list, String msg) {
+    public void writeMsgToConns(ReceiverMessage list, String msg) {
         for(String client : list.read()) {
             map.get(client).writeMessage(msg);
         }

@@ -33,6 +33,7 @@ public class ProximityChatServerConn extends Thread {
                 Minecraft.getInstance().player.sendMessage(new StringTextComponent(line), Minecraft.getInstance().player.getUUID());
             } catch (IOException e) {
                 ProximityChatMod.LOGGER.error("IOException while receiving message");
+                shouldQuit = true;
             }
         }
         try {
