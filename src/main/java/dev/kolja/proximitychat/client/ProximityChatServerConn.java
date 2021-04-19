@@ -10,7 +10,7 @@ import java.net.Socket;
 
 public class ProximityChatServerConn extends Thread {
 
-    private Socket socket;
+    private final Socket socket;
     private boolean shouldQuit = false;
 
     public ProximityChatServerConn(Socket socket) {
@@ -22,7 +22,7 @@ public class ProximityChatServerConn extends Thread {
         try {
             is = new DataInputStream(socket.getInputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            ProximityChatMod.LOGGER.error("Could not create Input stream for server socket");
             return;
         }
 
@@ -32,17 +32,22 @@ public class ProximityChatServerConn extends Thread {
                 assert Minecraft.getInstance().player != null;
                 Minecraft.getInstance().player.sendMessage(new StringTextComponent(line), Minecraft.getInstance().player.getUUID());
             } catch (IOException e) {
-                e.printStackTrace();
+                ProximityChatMod.LOGGER.error("IOException while receiving message");
             }
         }
         try {
             socket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            ProximityChatMod.LOGGER.error("Could not close server conn");
         }
     }
 
     public void terminate() {
         shouldQuit = true;
+        try {
+            this.join();
+        } catch (InterruptedException e) {
+            ProximityChatMod.LOGGER.debug("Something went wrong. Disregarding");
+        }
     }
 }

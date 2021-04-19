@@ -18,7 +18,7 @@ public class ClientNetworkEventHandler {
             assert Minecraft.getInstance().player != null;
             if(Minecraft.getInstance().player.equals(event.getEntity())) {
                 ProximityChatServer.terminate();
-                ProximityChatClientHandler.getInstance().terminateConns();
+                ProximityChatClientHandler.destroy();
             }
         }
     }

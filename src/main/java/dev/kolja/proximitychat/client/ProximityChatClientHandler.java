@@ -40,13 +40,6 @@ public class ProximityChatClientHandler {
         }
     }
 
-    public void terminateConns() {
-        for(ProximityChatClientConn conn : map.values()) {
-            conn.terminate();
-        }
-        map.clear();
-    }
-
     public void terminateConn(String client) {
         map.get(client).terminate();
         map.remove(client);
