@@ -1,4 +1,4 @@
-package dev.kolja.proximitychat.client;
+package dev.kolja.proximitychat.net;
 
 public class HandlerNotCreatedException extends Exception {
     public HandlerNotCreatedException() {

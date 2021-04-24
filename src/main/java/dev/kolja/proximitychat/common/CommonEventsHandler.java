@@ -1,6 +1,6 @@
 package dev.kolja.proximitychat.common;
 
-import dev.kolja.proximitychat.client.ProximityChatClientHandler;
+import dev.kolja.proximitychat.common.netmessage.PingMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Mod.EventBusSubscriber
-public class RegistryEventsHandler {
+public class CommonEventsHandler {
     @SubscribeEvent
     public static void onRegisterEvent(RegisterCommandsEvent event) {
         new ProximityChatCommand(event.getDispatcher());
@@ -24,9 +24,9 @@ public class RegistryEventsHandler {
         Matcher m = r.matcher(event.getMessage());
         if(m.find()) {
             assert Minecraft.getInstance().player != null;
-            ProximityChatPacketHandler.INSTANCE.sendToServer(new PingMessage());
+            PacketHandler.INSTANCE.sendToServer(new PingMessage());
             event.setCanceled(true);
-            ProximityChatPacketHandler.setCurrentMessage("^" + Minecraft.getInstance().player.getScoreboardName() + "^ " + m.group("message"));
+            PacketHandler.setCurrentMessage("^" + Minecraft.getInstance().player.getScoreboardName() + "^ " + m.group("message"));
         }
     }
 }

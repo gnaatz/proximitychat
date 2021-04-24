@@ -1,14 +1,14 @@
-package dev.kolja.proximitychat.common;
+package dev.kolja.proximitychat.common.netmessage;
 
 import net.minecraft.network.PacketBuffer;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class ReceiverMessage {
+public class ConnectionBuildMessage {
     private List<String> list;
 
-    public ReceiverMessage(List<String> list) {
+    public ConnectionBuildMessage(List<String> list) {
         this.list = list;
     }
 
@@ -31,7 +31,7 @@ public class ReceiverMessage {
         list.remove(0);
     }
 
-    public static ReceiverMessage decode(PacketBuffer buffer) {
+    public static ConnectionBuildMessage decode(PacketBuffer buffer) {
         List<String> list = new LinkedList<>();
         int size = buffer.readInt();
         for(int i = 0; i < size; i++) {
@@ -42,6 +42,6 @@ public class ReceiverMessage {
             ip += buffer.readInt();
             list.add(ip);
         }
-        return new ReceiverMessage(list);
+        return new ConnectionBuildMessage(list);
     }
 }

@@ -1,5 +1,7 @@
-package dev.kolja.proximitychat.client;
+package dev.kolja.proximitychat.net;
 
+import dev.kolja.proximitychat.net.client.ChatClientHandler;
+import dev.kolja.proximitychat.net.server.ChatServer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -8,7 +10,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
-public class ClientNetworkEventHandler {
+public class OnPlayerLeaveHandler {
     @SubscribeEvent
     public static void onPlayerLeave(EntityLeaveWorldEvent event) {
         if(!(event.getEntity() instanceof PlayerEntity)) {
@@ -17,8 +19,8 @@ public class ClientNetworkEventHandler {
         if(event.getWorld().isClientSide()) {
             assert Minecraft.getInstance().player != null;
             if(Minecraft.getInstance().player.equals(event.getEntity())) {
-                ProximityChatServer.terminate();
-                ProximityChatClientHandler.destroy();
+                ChatServer.terminate();
+                ChatClientHandler.destroy();
             }
         }
     }

@@ -1,18 +1,18 @@
-package dev.kolja.proximitychat.client;
+package dev.kolja.proximitychat.net.client;
 
 import dev.kolja.proximitychat.ProximityChatMod;
-import dev.kolja.proximitychat.common.ConnectionBuildMessage;
-import dev.kolja.proximitychat.common.ReceiverMessage;
+import dev.kolja.proximitychat.common.netmessage.ConnectionBuildMessage;
+import dev.kolja.proximitychat.common.netmessage.ReceiverMessage;
 
 import java.util.HashMap;
 
-public class ProximityChatClientHandler {
+public class ChatClientHandler {
 
-    private static ProximityChatClientHandler handler;
+    private static ChatClientHandler handler;
 
-    public static ProximityChatClientHandler getInstance() {
+    public static ChatClientHandler getInstance() {
         if(handler == null) {
-            handler = new ProximityChatClientHandler();
+            handler = new ChatClientHandler();
         }
         return handler;
     }
@@ -21,15 +21,15 @@ public class ProximityChatClientHandler {
         if(handler == null) {
             return;
         }
-        for(ProximityChatClientConn conn : handler.map.values()) {
+        for(ChatClientConn conn : handler.map.values()) {
             conn.terminate();
         }
         handler = null;
     }
 
-    private final HashMap<String, ProximityChatClientConn> map;
+    private final HashMap<String, ChatClientConn> map;
 
-    private  ProximityChatClientHandler() {
+    private ChatClientHandler() {
         map = new HashMap<>();
     }
 
@@ -37,7 +37,7 @@ public class ProximityChatClientHandler {
         for(String ip : list.read()) {
             if(map.containsKey(ip))
                 continue;
-            map.put(ip, new ProximityChatClientConn(ip, ProximityChatMod.SOCKET_PORT));
+            map.put(ip, new ChatClientConn(ip, ProximityChatMod.SOCKET_PORT));
         }
     }
 
@@ -53,7 +53,7 @@ public class ProximityChatClientHandler {
     }
 
     public void writeMsgToAll(String msg) {
-        for(ProximityChatClientConn conn : map.values()) {
+        for(ChatClientConn conn : map.values()) {
             conn.writeMessage(msg);
         }
     }

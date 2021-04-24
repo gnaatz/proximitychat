@@ -1,19 +1,19 @@
-package dev.kolja.proximitychat.client;
+package dev.kolja.proximitychat.net.server;
 
 import dev.kolja.proximitychat.ProximityChatMod;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextComponent;
 
 import java.io.*;
 import java.net.Socket;
 
-public class ProximityChatServerConn extends Thread {
+public class ChatServerConn extends Thread {
 
     private final Socket socket;
     private boolean shouldQuit = false;
 
-    public ProximityChatServerConn(Socket socket) {
+    public ChatServerConn(Socket socket) {
         this.socket = socket;
     }
 

@@ -1,6 +1,8 @@
 package dev.kolja.proximitychat.common;
 
 import dev.kolja.proximitychat.ProximityChatMod;
+import dev.kolja.proximitychat.common.netmessage.ConnectionBuildMessage;
+import dev.kolja.proximitychat.common.netmessage.PingMessage;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,7 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @EventBusSubscriber(Dist.DEDICATED_SERVER)
-public class NetworkEventHandler {
+public class ServerEventsHandler {
     public static void onMessagePing(PingMessage ping) {
 
     }
@@ -39,13 +41,13 @@ public class NetworkEventHandler {
                 addToList(entity, ipList);
             }
             for(ServerPlayerEntity entity : list) {
-                ProximityChatPacketHandler.INSTANCE.send(
+                PacketHandler.INSTANCE.send(
                         PacketDistributor.PLAYER.with(() -> entity),
                         new ConnectionBuildMessage(
                                 new LinkedList<>(Collections.singletonList(getIpFromEntity(player)))
                         ));
             }
-            ProximityChatPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new ConnectionBuildMessage(ipList));
+            PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new ConnectionBuildMessage(ipList));
             ProximityChatMod.LOGGER.info("Client List sent");
         }
     }

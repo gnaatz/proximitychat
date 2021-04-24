@@ -1,4 +1,4 @@
-package dev.kolja.proximitychat.client;
+package dev.kolja.proximitychat.net.client;
 
 import dev.kolja.proximitychat.ProximityChatMod;
 
@@ -6,13 +6,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class ProximityChatClientConn {
+public class ChatClientConn {
     private Socket socket;
     private String msg;
     private DataOutputStream os;
     private Thread currentThread;
 
-    public ProximityChatClientConn(String ip, int port) {
+    public ChatClientConn(String ip, int port) {
         try {
             socket = new Socket(ip, port);
             os = new DataOutputStream(socket.getOutputStream());

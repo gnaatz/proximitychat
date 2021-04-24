@@ -1,7 +1,7 @@
-package dev.kolja.proximitychat.client;
+package dev.kolja.proximitychat.net.server;
 
 import dev.kolja.proximitychat.ProximityChatMod;
-import dev.kolja.proximitychat.common.ConnectionBuildMessage;
+import dev.kolja.proximitychat.common.netmessage.ConnectionBuildMessage;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -11,15 +11,15 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ProximityChatServer extends Thread {
+public class ChatServer extends Thread {
 
-    private static ProximityChatServer server;
+    private static ChatServer server;
 
     public static void create(ConnectionBuildMessage list) {
         if(server != null) {
             return;
         }
-        server = new ProximityChatServer(list.read().get(0));
+        server = new ChatServer(list.read().get(0));
         server.start();
     }
 
@@ -30,9 +30,9 @@ public class ProximityChatServer extends Thread {
 
     private boolean shouldStop = false;
     private String ip;
-    private List<ProximityChatServerConn> socketList;
+    private List<ChatServerConn> socketList;
 
-    private ProximityChatServer(String ip) {
+    private ChatServer(String ip) {
         super();
         this.ip = ip;
     }
@@ -53,7 +53,7 @@ public class ProximityChatServer extends Thread {
             try {
                 Socket socket = server.accept();
                 ProximityChatMod.LOGGER.info("Incoming connection accepted");
-                ProximityChatServerConn conn = new ProximityChatServerConn(socket);
+                ChatServerConn conn = new ChatServerConn(socket);
                 conn.start();
                 socketList.add(conn);
             } catch (IOException e) {
@@ -70,7 +70,7 @@ public class ProximityChatServer extends Thread {
 
     private void kill() {
         shouldStop = true;
-        for(ProximityChatServerConn conn : socketList) {
+        for(ChatServerConn conn : socketList) {
             conn.terminate();
         }
     }

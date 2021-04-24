@@ -1,4 +1,4 @@
-package dev.kolja.proximitychat.common;
+package dev.kolja.proximitychat.common.netmessage;
 
 import net.minecraft.network.PacketBuffer;
 
