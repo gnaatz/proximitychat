@@ -4,7 +4,11 @@ This mod allows you to write chat messages to players in your close proximity. T
 
 The mod is currently in alpha state and will only work in local networks, for example your dormitory. You currently have to compile the mod by yourself. You can follow the instructions below. Have fun!
 
-## Instructions (As written by the FML Team)
+## How to
+
+To use the chat, you need to install the mod both on the server and on all connecting clients. After you and your friends all join the same game and you are within a 100 block range, you can send proximitychat-messages via the normal chat using the prefix <.
+
+## Installation Instructions (As written by the FML Team)
 
 Source installation information for modders
 
